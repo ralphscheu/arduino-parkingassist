@@ -2,24 +2,31 @@
 <html>
    <head>
       <meta charset="utf-8">
-      <title>mqtt-demo: A simple web application that can subscribe to topics from an MQTT broker over websockets</title>
+      <title>Parking Assist</title>
       <link rel="stylesheet" href="style.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
       <script src="scripts.js" type="text/javascript"></script>
    </head>
    <body>
       <div class="wrapper">
-         <h1>mqtt-demo</h1>
-         <form id="connection-information-form">
-            <b>Hostname or IP Address:</b> 
-            <input id="host" type="text" name="host" value="test.mosquitto.org"><br>
-            <b>Port:</b>
-            <input id="port" type="text" name="port" value="8080"><br>
-            <b>Topic:</b>
-            <input id="topic" type="text" name="topic" value="#"><br><br>
-            <input type="button" onclick="startConnect()" value="Connect">
-            <input type="button" onclick="startDisconnect()" value="Disconnect">
-         </form>
+        <p style="font-size: 1.5rem">Es sind derzeit <strong><span id="num_free_parking_spots"></span></strong> Parkplätze frei.</p>
+
+        <div class="spot" id="spot01">
+            <div class="spot_id_display">01</div>
+            <div class="spot_car_distance"><span id="spot01_car_distance"></span></div>
+        </div>
+
+        <div class="spot" id="spot02">
+            <div class="spot_id_display">02</div>
+            <div class="spot_car_distance"><span id="spot02_car_distance"></span></div>
+        </div>
+
+        <div class="spot" id="spot03">
+            <div class="spot_id_display">03</div>
+            <div class="spot_car_distance"><span id="spot03_car_distance"></span></div>
+        </div>
+
+
          <div id="messages"></div>
       </div>
    </body>
