@@ -1,0 +1,55 @@
+.spot {
+    border: solid 8px;
+    display: block;
+    float: left;
+    margin: 0.75rem;
+    padding: 1rem;
+    width: 10em;
+    height: 14rem;
+    position: relative;
+}
+
+.spot_id_display {
+    text-align: center;
+}
+
+.spot_id_display span {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #444;
+    background: rgba(255,255,255,0.9);
+    padding: .25rem .5rem;
+}
+
+.spot_label {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: .25rem .5rem;
+}
+
+.OCCUPIED {
+    border-color: orangered;
+}
+
+.FREE {
+    border-color: greenyellow;
+}
+
+.RESERVED, .PARKING_IN, .PARKING_OUT {
+    border-color: yellow;
+}
+
+.spot input[type=button] {
+    display: block;
+    width: 10rem;
+    position: absolute;
+    bottom: 1rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.PARKING_IN, .PARKING_OUT, .OCCUPIED {
+    background: url('car.png') no-repeat center center;
+    background-size: 9rem;
+    background-position-y: 0.5rem;
+}
