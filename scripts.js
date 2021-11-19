@@ -44,9 +44,9 @@ let parking_spots_data = [
 ]
 
 
-///////////////////////////////
-// MQTT CONNECTION FUNCTIONS //
-///////////////////////////////
+////////////////////////////////
+// MQTT CONNECTION MANAGEMENT //
+////////////////////////////////
 
 // Called after page finished loading
 // Establish connection to MQTT broker using paho-mqtt (https://www.eclipse.org/paho/clients/js/)
@@ -120,8 +120,9 @@ function makeReservation(spot_id) {
     message = new Paho.MQTT.Message("RESERVED");
     message.destinationName = "parkingassist/" + spot_id + "/status";
     client.send(message);
+    console.log("Sent " + message.payloadString + " to " + message.destinationName);
 
-    // calculate UNIX timestamp at which the reservation will expire
+    // calculate UNIX timestamp at which this reservation will expire
     reservation_expires_at = new Date().getTime() + RESERVATIONS_EXPIRATION_MINUTES * 60000;
 
     message = new Paho.MQTT.Message(reservation_expires_at.toString());
@@ -136,6 +137,7 @@ function cancelReservation(spot_id) {
     message.destinationName = "parkingassist/" + spot_id + "/status";
     client.send(message);
 }
+
 
 // Main update loop
 function update() {
@@ -152,13 +154,10 @@ function update() {
         document.getElementById(spot_id_verbose).className = "spot " + spot_data['status'];
 
         // show distance in cm while status is PARKING_IN
-        if (['PARKING_IN','PARKING_OUT'].includes(spot_data['status'])) {
-            // document.getElementById(spot_id_verbose + "_label").innerText = '⬌ ' + spot_data['car_distance'] + 'cm';
+        if (['PARKING_IN','PARKING_OUT','OCCUPIED'].includes(spot_data['status'])) {
             document.getElementById(spot_id_verbose + "_label").innerText = '';
             document.getElementById(spot_id_verbose).style.backgroundPositionY = "calc(-1rem + 14rem * (" + spot_data['car_distance'] + " / " + PARKING_SPOT_LENGTH_CM + ")";
         }
-
-
 
         // increment free parking spot counter if this spot is free
         if (spot_data['status'] === 'FREE')
@@ -206,15 +205,13 @@ window.onload = function() {
     startConnect("127.0.0.1", 9001);  // 192.168.0.119 in mico-b-wifi
 
     // register event listeners to Reserve buttons
-    document.getElementById('btn_reserve_parking_spot01').addEventListener('click', function(){
-        makeReservation("spot01");
-    });
-    document.getElementById('btn_reserve_parking_spot02').addEventListener('click', function(){
-        makeReservation("spot02");
-    });
-    document.getElementById('btn_reserve_parking_spot03').addEventListener('click', function(){
-        makeReservation("spot03");
-    });
+    // loop through all parking spots
+    for (i=1; i<=NUM_PARKING_SPOTS; i++) {
+        const spot_id_verbose = "spot0" + i;  // converts 1 to spot01 etc. for referencing in MQTT topics and HTML object id's (This will fail if there are more than 9 spots)
+        document.getElementById('btn_reserve_parking_' + spot_id_verbose).addEventListener('click', function(){
+            makeReservation(spot_id_verbose);
+        });
+    }
     
     // start timer that calls the update() function repeatedly
     setInterval(function() {
