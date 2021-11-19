@@ -12,16 +12,16 @@ const LOCALIZATIONSTRINGS = {
 }
 
 // Timespan after which unused reservation will expire
-const RESERVATIONS_EXPIRATION_MINUTES = 30;
+const RESERVATIONS_EXPIRATION_MINUTES = 0.25;
 
 // Total number of available parking spots
-const NUM_PARKING_SPOTS = 3;
+const NUM_PARKING_SPOTS = 9;
 
 // Length of parking spots in cm. Set to a reasonable value for demonstration purposes.
-const PARKING_SPOT_LENGTH_CM = 50;
+const PARKING_SPOT_LENGTH_CM = 100;
 
 // Interval (in ms) between updates to the GUI
-const UPDATE_LOOP_INTERVAL_MS = 250;
+const UPDATE_LOOP_INTERVAL_MS = 50;
 
 
 
@@ -32,9 +32,15 @@ const UPDATE_LOOP_INTERVAL_MS = 250;
 // This will hold the current parking data based on the most recent corresponding MQTT messages
 // We initialize some default data so we don't run into null errors while waiting for the first messages.
 let parking_spots_data = [
-    { "spot_id": "01", "car_distance": 999,  "status": "FREE", "reservation_expires_at": null },
-    { "spot_id": "02", "car_distance": 999,  "status": "OCCUPIED", "reservation_expires_at": null },
-    { "spot_id": "03", "car_distance": PARKING_SPOT_LENGTH_CM * 0.6, "status": "PARKING_IN", "reservation_expires_at": null },
+    { "car_distance": 999,  "status": "FREE", "prev_status": "FREE", "reservation_expires_at": null },
+    { "car_distance": 999,  "status": "FREE", "prev_status": "FREE", "reservation_expires_at": null },
+    { "car_distance": 999, "status": "FREE", "prev_status": "FREE", "reservation_expires_at": null },
+    { "car_distance": 999, "status": "FREE", "prev_status": "FREE", "reservation_expires_at": null },
+    { "car_distance": 12, "status": "OCCUPIED", "prev_status": "OCCUPIED", "reservation_expires_at": null },
+    { "car_distance": 14, "status": "OCCUPIED", "prev_status": "OCCUPIED", "reservation_expires_at": null },
+    { "car_distance": 11, "status": "OCCUPIED", "prev_status": "OCCUPIED", "reservation_expires_at": null },
+    { "car_distance": 999, "status": "FREE", "prev_status": "FREE", "reservation_expires_at": null },
+    { "car_distance": 999, "status": "FREE", "prev_status": "FREE", "reservation_expires_at": null },
 ]
 
 
