@@ -7,6 +7,7 @@
     width: 10em;
     height: 14rem;
     position: relative;
+    background-position-y: calc(100% + 0.5rem);
 }
 
 .spot_id_display {
@@ -49,7 +50,7 @@
 }
 
 .PARKING_IN, .PARKING_OUT, .OCCUPIED {
-    background: url('car.png') no-repeat center center;
+    background: url('car.png') no-repeat 50% 100%;
     background-size: 9rem;
-    background-position-y: 0.5rem;
+    transition: linear background-position-y 0.5s;
 }
